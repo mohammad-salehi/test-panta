@@ -1,11 +1,12 @@
 'use client'
 
-import { Button, SearchableSelect, Modal, DatePicker, Box, ButtonSelect, HashText, TreeChart } from "panta_design_system";
+import { Button, SearchableSelect, Modal, DatePicker, Box, ButtonSelect, HashText, TreeChart, PageLoader } from "panta_design_system";
 import { useMemo, useState } from 'react';
 import { DoubleBarChart } from "panta_design_system";
 import { DoubleLineChart } from "panta_design_system";
 import { SingleBarChart } from "panta_design_system";
 import { SingleLineChart } from "panta_design_system";
+import { Badge } from "panta_design_system";
 import { CircleChart } from "panta_design_system";
 import {
   Tabs,
@@ -13,6 +14,278 @@ import {
   TabsTrigger,
   TabsContent,
 } from "panta_design_system"
+import { Column, ExpandableTable } from "panta_design_system";
+import { Loader } from "panta_design_system";
+
+type Project = {
+  id: string;
+  title: string;
+  owner: string;
+  team: string;
+  priority: "Low" | "Medium" | "High" | "Critical";
+  status: "Todo" | "In Progress" | "Review" | "Done";
+  budget: number;
+  progress: number;
+  dueDate: string;
+  subRows?: Project[];
+};
+
+const Tabledata: Project[] = [
+  {
+    id: "1",
+    title: "Redesign Dashboard",
+    owner: "Ali",
+    team: "Product",
+    priority: "High",
+    status: "In Progress",
+    budget: 120000000,
+    progress: 72,
+    dueDate: "1405/04/10",
+    subRows: [
+      {
+        id: "1-1",
+        title: "Wireframes",
+        owner: "Mina",
+        team: "Design",
+        priority: "Medium",
+        status: "Done",
+        budget: 15000000,
+        progress: 100,
+        dueDate: "1405/03/12",
+      },
+      {
+        id: "1-2",
+        title: "UI Kit Update",
+        owner: "Reza",
+        team: "Design",
+        priority: "High",
+        status: "In Progress",
+        budget: 30000000,
+        progress: 65,
+        dueDate: "1405/03/28",
+      },
+    ],
+  },
+  {
+    id: "2",
+    title: "API Gateway Migration",
+    owner: "Sara",
+    team: "Backend",
+    priority: "Critical",
+    status: "Review",
+    budget: 200000000,
+    progress: 84,
+    dueDate: "1405/03/30",
+    subRows: [
+      {
+        id: "2-1",
+        title: "Auth Service",
+        owner: "Hamed",
+        team: "Backend",
+        priority: "High",
+        status: "Done",
+        budget: 50000000,
+        progress: 100,
+        dueDate: "1405/03/05",
+      },
+    ],
+  },
+  {
+    id: "3",
+    title: "Mobile Push Notifications",
+    owner: "Nima",
+    team: "Mobile",
+    priority: "Medium",
+    status: "Todo",
+    budget: 45000000,
+    progress: 10,
+    dueDate: "1405/05/01",
+  },
+  {
+    id: "4",
+    title: "SEO Technical Fixes",
+    owner: "Pari",
+    team: "Marketing",
+    priority: "High",
+    status: "In Progress",
+    budget: 30000000,
+    progress: 40,
+    dueDate: "1405/04/02",
+    subRows: [
+      {
+        id: "4-1",
+        title: "Schema Markup",
+        owner: "Pari",
+        team: "Marketing",
+        priority: "Medium",
+        status: "Review",
+        budget: 8000000,
+        progress: 75,
+        dueDate: "1405/03/22",
+      },
+      {
+        id: "4-2",
+        title: "Core Web Vitals",
+        owner: "Navid",
+        team: "Frontend",
+        priority: "High",
+        status: "In Progress",
+        budget: 12000000,
+        progress: 50,
+        dueDate: "1405/03/29",
+      },
+    ],
+  },
+  {
+    id: "5",
+    title: "Payment Retry Mechanism",
+    owner: "Maryam",
+    team: "Backend",
+    priority: "Critical",
+    status: "In Progress",
+    budget: 90000000,
+    progress: 58,
+    dueDate: "1405/04/15",
+  },
+  {
+    id: "6",
+    title: "Customer Support Portal",
+    owner: "Omid",
+    team: "Frontend",
+    priority: "Medium",
+    status: "Review",
+    budget: 70000000,
+    progress: 79,
+    dueDate: "1405/04/05",
+    subRows: [
+      {
+        id: "6-1",
+        title: "Ticket List",
+        owner: "Omid",
+        team: "Frontend",
+        priority: "Low",
+        status: "Done",
+        budget: 10000000,
+        progress: 100,
+        dueDate: "1405/03/10",
+      },
+      {
+        id: "6-2",
+        title: "Live Chat Widget",
+        owner: "Sina",
+        team: "Frontend",
+        priority: "Medium",
+        status: "In Progress",
+        budget: 18000000,
+        progress: 55,
+        dueDate: "1405/03/27",
+      },
+      {
+        id: "6-3",
+        title: "SLA Reports",
+        owner: "Yas",
+        team: "Data",
+        priority: "High",
+        status: "Todo",
+        budget: 15000000,
+        progress: 5,
+        dueDate: "1405/04/20",
+      },
+    ],
+  },
+  {
+    id: "7",
+    title: "Data Warehouse ETL",
+    owner: "Kian",
+    team: "Data",
+    priority: "High",
+    status: "In Progress",
+    budget: 160000000,
+    progress: 47,
+    dueDate: "1405/05/12",
+  },
+  {
+    id: "8",
+    title: "Onboarding Email Journey",
+    owner: "Ava",
+    team: "CRM",
+    priority: "Low",
+    status: "Done",
+    budget: 25000000,
+    progress: 100,
+    dueDate: "1405/03/01",
+  },
+  {
+    id: "9",
+    title: "Role-Based Access Control",
+    owner: "Hossein",
+    team: "Security",
+    priority: "Critical",
+    status: "In Progress",
+    budget: 110000000,
+    progress: 62,
+    dueDate: "1405/04/25",
+    subRows: [
+      {
+        id: "9-1",
+        title: "Permission Matrix",
+        owner: "Hossein",
+        team: "Security",
+        priority: "High",
+        status: "Review",
+        budget: 22000000,
+        progress: 80,
+        dueDate: "1405/03/24",
+      },
+    ],
+  },
+  {
+    id: "10",
+    title: "A/B Test Pricing Page",
+    owner: "Elina",
+    team: "Growth",
+    priority: "Medium",
+    status: "Todo",
+    budget: 35000000,
+    progress: 0,
+    dueDate: "1405/04/18",
+  },
+];
+const columns: Column<Project>[] = [
+  { header: "عنوان پروژه", accessorKey: "title", align: "start", width: "24%" },
+  { header: "مسئول", accessorKey: "owner", align: "start", width: "10%" },
+  { header: "تیم", accessorKey: "team", align: "center", width: "10%" },
+  {
+    header: "اولویت",
+    align: "center",
+    width: "10%",
+    cell: (row) => {
+      const color =
+        row.priority === "Critical"
+          ? "text-red-600"
+          : row.priority === "High"
+            ? "text-orange-600"
+            : row.priority === "Medium"
+              ? "text-yellow-600"
+              : "text-green-600";
+      return <span className={color}>{row.priority}</span>;
+    },
+  },
+  {
+    header: "وضعیت",
+    align: "center",
+    width: "12%",
+    cell: (row) => <span>{row.status}</span>,
+  },
+  {
+    header: "بودجه (تومان)",
+    align: "end",
+    width: "14%",
+    cell: (row) => row.budget.toLocaleString("fa-IR"),
+  },
+  { header: "پیشرفت", accessorKey: "progress", align: "center", width: "12%" },
+  { header: "ددلاین", accessorKey: "dueDate", align: "center", width: "8%" },
+];
 type Exchange = { id: number; name: string };
 const EXCHANGES: Exchange[] = [
   { id: 1, name: "آگاه" },
@@ -21,13 +294,6 @@ const EXCHANGES: Exchange[] = [
   { id: 4, name: "پاسارگاد" },
   { id: 5, name: "اقتصاد بیدار" },
 ];
-
-const userData = {
-  name: "علی رضایی",
-  email: "ali@example.com",
-  role: "مدیر محصول",
-  status: "فعال",
-};
 
 const brokers = [
   { label: "IranBit Exchange", value: "iranbit" },
@@ -181,6 +447,101 @@ export default function Home() {
 
   return (
     <div style={{}}>
+      
+
+      {/* حالت اسکلت */}
+
+      {/* اسکلت با آواتار */}
+      <Box
+        icon={<MoreVerticalIcon size={20} />}
+        title="بگ"
+        description="انتخاب گزینه برای مشاهده اطلاعات"
+      >
+        <Loader text="در حال دریافت اطلاعات..." />
+      </Box>
+      <Box
+        icon={<MoreVerticalIcon size={20} />}
+        title="بگ"
+        description="انتخاب گزینه برای مشاهده اطلاعات"
+      >
+        <Loader mode="skeleton" count={4} />
+      </Box>
+      <Box
+        icon={<MoreVerticalIcon size={20} />}
+        title="بگ"
+        description="انتخاب گزینه برای مشاهده اطلاعات"
+      >
+        <Loader mode="skeleton" count={4} withAvatar />
+      </Box>
+
+      <Box
+        icon={<MoreVerticalIcon size={20} />}
+        title="بگ"
+        description="انتخاب گزینه برای مشاهده اطلاعات"
+        actions={
+          <Button variant="warning">
+            تنظیمات
+          </Button>
+        }
+        footer={
+          <div className="text-sm text-muted-foreground">
+            آخرین بروزرسانی: امروز
+          </div>
+        }
+      >
+        <Badge color="green">فعال</Badge>
+        <Badge color="red">ناموفق</Badge>
+        <Badge color="blue">در حال بررسی</Badge>
+        <Badge color="yellow">در انتظار</Badge>
+        <Badge color="purple">جدید</Badge>
+
+        <Badge color="green" variant="solid">موفق</Badge>
+        <Badge color="red" variant="outline">حذف شده</Badge>
+
+      </Box>
+
+      <Box
+        icon={<MoreVerticalIcon size={20} />}
+        title="تب"
+        description="انتخاب گزینه برای مشاهده اطلاعات"
+        actions={
+          <Button variant="warning">
+            تنظیمات
+          </Button>
+        }
+        footer={
+          <div className="text-sm text-muted-foreground">
+            آخرین بروزرسانی: امروز
+          </div>
+        }
+      >
+        <ExpandableTable<Project>
+          data={Tabledata}
+          columns={columns}
+          pageSize={10}
+          renderProgress={(value) => (
+            <div className="mx-auto flex w-[120px] items-center gap-2">
+              <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200">
+                <div
+                  className={`h-full ${value >= 80 ? "bg-green-500" : value >= 40 ? "bg-yellow-500" : "bg-red-500"}`}
+                  style={{ width: `${value}%` }}
+                />
+              </div>
+              <span className="text-xs">{value}%</span>
+            </div>
+          )}
+          rowDetails={(row) => (
+            <div className="rounded-lg border border-border p-3 text-sm">
+              <div>جزئیات: {row.title}</div>
+              <div>Owner: {row.owner}</div>
+              <div>Team: {row.team}</div>
+              <div>Due: {row.dueDate}</div>
+            </div>
+          )}
+        />
+
+      </Box>
+
       <div className="max-w-sm" style={{ width: '300px' }}>
         <SearchableSelect
           label="کارگزاری"
@@ -544,6 +905,8 @@ export default function Home() {
             <TabsContent value="history">Tab 3</TabsContent>
           </Tabs>
         </Box>
+
+
 
       </div>
 
