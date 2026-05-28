@@ -1,45 +1,13 @@
-@import "tailwindcss";
 
 /* ---------- Font ---------- */
 @font-face {
   font-family: "IRANSansXFaNum";
-  src: url("../public/fonts/IRANSansXFaNum-Medium.ttf") format("truetype");
+  src: url("/fonts/IRANSansXFaNum-Medium.ttf") format("truetype");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 
 * {
-  font-family: IRANSansXFaNum;
-}
-
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-}
-
-
-
-* {
-  font-family: IRANSansXFaNum !important;
+  font-family: IRANSansXFaNum, system-ui, sans-serif !important;
 }
