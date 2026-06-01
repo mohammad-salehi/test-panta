@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, SearchableSelect, Modal } from "panta_design_system";
+import { Button, SearchableSelect, Modal, DatePicker } from "panta_design_system";
 
 import { useMemo, useState } from 'react';
 type Exchange = { id: number; name: string };
@@ -19,6 +19,7 @@ const userData = {
   status: "فعال",
 };
 
+
 export default function Home() {
   const [open, setOpen] = useState(false);
 
@@ -28,9 +29,16 @@ export default function Home() {
     () => EXCHANGES.map((e) => ({ id: e.id, label: e.name, value: e.name })),
     []
   );
+
+  const [dateFa, setDateFa] = useState<Date | null>(null);
+  const [dateEn, setDateEn] = useState<Date | null>(null);
+
+  const [dateFaISO, setDateFaISO] = useState("");
+  const [dateEnISO, setDateEnISO] = useState("");
+
   return (
     <div style={{}}>
-      <div className="max-w-sm">
+      <div className="max-w-sm" style={{ width: '300px' }}>
         <SearchableSelect
           label="کارگزاری"
           value={exchangeSelected}
@@ -52,6 +60,27 @@ export default function Home() {
       >
         Open Modal
       </button>
+
+      <div className="mx-auto max-w-lg space-y-6 p-6 w-lg" style={{ width: '300px' }}>
+        <DatePicker
+          calendar="jalali"
+          value={dateFa}
+          onChange={setDateFa}
+          onChangeFormatted={setDateFaISO}
+          placeholder="انتخاب تاریخ"
+        />
+
+        <DatePicker
+          calendar="gregorian"
+          value={dateEn}
+          onChange={setDateEn}
+          onChangeFormatted={setDateEnISO}
+          placeholder="Pick a date"
+        />
+
+      </div>
+
+
       <Modal
         open={open}
         onClose={() => setOpen(false)}
@@ -62,9 +91,11 @@ export default function Home() {
           این یک محتوای استاتیک برای تست کامپوننت Modal است.
         </p>
         <div className="mt-4">
-          <Button onClick={() => {setOpen(false)}} variant="danger" className="mt-4">بسته</Button>
+          <Button onClick={() => { setOpen(false) }} variant="danger" className="mt-4">بسته</Button>
         </div>
       </Modal>
+
+
     </div>
   );
 }
