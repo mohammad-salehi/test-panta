@@ -2,6 +2,8 @@
 
 import { Button, SearchableSelect, Modal, DatePicker, Box, ButtonSelect, HashText } from "panta_design_system";
 import { useMemo, useState } from 'react';
+import { DoubleBarChart } from "panta_design_system";
+import { DoubleLineChart } from "panta_design_system";
 
 type Exchange = { id: number; name: string };
 const EXCHANGES: Exchange[] = [
@@ -83,6 +85,41 @@ export default function Home() {
   const [dateEnISO, setDateEnISO] = useState("");
 
   const [value, setValue] = useState("");
+
+  const data = [
+    { label: "BTC", x: 120000000, y: 80000000 },
+    { label: "ETH", x: 95000000, y: 60000000 },
+    { label: "USDT", x: 70000000, y: 45000000 },
+    { label: "BNB", x: 40000000, y: 20000000 },
+    { label: "BTC", x: 120000000, y: 80000000 },
+    { label: "ETH", x: 95000000, y: 60000000 },
+    { label: "USDT", x: 70000000, y: 45000000 },
+    { label: "BNB", x: 40000000, y: 20000000 },
+    { label: "BTC", x: 120000000, y: 80000000 },
+    { label: "ETH", x: 95000000, y: 60000000 },
+    { label: "USDT", x: 70000000, y: 45000000 },
+    { label: "BNB", x: 40000000, y: 20000000 },
+    { label: "BTC", x: 120000000, y: 80000000 },
+    { label: "ETH", x: 95000000, y: 60000000 },
+    { label: "USDT", x: 70000000, y: 45000000 },
+    { label: "BNB", x: 40000000, y: 20000000 },
+    { label: "BTC", x: 120000000, y: 80000000 },
+    { label: "ETH", x: 95000000, y: 60000000 },
+    { label: "USDT", x: 70000000, y: 45000000 },
+    { label: "BNB", x: 40000000, y: 20000000 },
+    { label: "BTC", x: 120000000, y: 80000000 },
+    { label: "ETH", x: 95000000, y: 60000000 },
+    { label: "USDT", x: 70000000, y: 45000000 },
+    { label: "BNB", x: 40000000, y: 20000000 },
+    { label: "BTC", x: 120000000, y: 80000000 },
+    { label: "ETH", x: 95000000, y: 60000000 },
+    { label: "USDT", x: 70000000, y: 45000000 },
+    { label: "BNB", x: 40000000, y: 20000000 },
+    { label: "BTC", x: 120000000, y: 80000000 },
+    { label: "ETH", x: 95000000, y: 60000000 },
+    { label: "USDT", x: 70000000, y: 45000000 },
+    { label: "BNB", x: 40000000, y: 20000000 },
+  ];
 
   return (
     <div style={{}}>
@@ -277,10 +314,56 @@ export default function Home() {
           }
         >
           <HashText
-            text="0x7fa938a2b91f49ce1b94a1c928fd90eae3f2a991"             
+            text="0x7fa938a2b91f49ce1b94a1c928fd90eae3f2a991"
             startChars={8}
             endChars={6}
             copyOnClickText
+          />
+        </Box>
+
+        <Box
+          icon={<MoreVerticalIcon size={20} />}
+          title="Grid چهار ستونه"
+          description="انتخاب گزینه برای مشاهده اطلاعات"
+          actions={
+            <Button variant="warning">
+              تنظیمات
+            </Button>
+          }
+          footer={
+            <div className="text-sm text-muted-foreground">
+              آخرین بروزرسانی: امروز
+            </div>
+          }
+        >
+          <DoubleBarChart
+            data={data}
+            assetLabel="دارایی"
+            liabilityLabel="بدهی"
+            height={300}
+          />
+        </Box>
+
+        <Box
+          icon={<MoreVerticalIcon size={20} />}
+          title="Grid چهار ستونه"
+          description="انتخاب گزینه برای مشاهده اطلاعات"
+          actions={
+            <Button variant="warning">
+              تنظیمات
+            </Button>
+          }
+          footer={
+            <div className="text-sm text-muted-foreground">
+              آخرین بروزرسانی: امروز
+            </div>
+          }
+        >
+          <DoubleLineChart
+            data={data}
+            assetLabel="دارایی"
+            liabilityLabel="بدهی"
+            height={300}
           />
         </Box>
 
