@@ -4,6 +4,9 @@ import { Button, SearchableSelect, Modal, DatePicker, Box, ButtonSelect, HashTex
 import { useMemo, useState } from 'react';
 import { DoubleBarChart } from "panta_design_system";
 import { DoubleLineChart } from "panta_design_system";
+import { SingleBarChart } from "panta_design_system";
+import { SingleLineChart } from "panta_design_system";
+import { CircleChart } from "panta_design_system";
 
 type Exchange = { id: number; name: string };
 const EXCHANGES: Exchange[] = [
@@ -120,6 +123,34 @@ export default function Home() {
     { label: "USDT", x: 70000000, y: 45000000 },
     { label: "BNB", x: 40000000, y: 20000000 },
   ];
+
+  const lineChartData = [
+    { label: "Jan", value: 1200 },
+    { label: "Feb", value: 2800 },
+    { label: "Mar", value: 1900 },
+    { label: "Apr", value: 4200 },
+    { label: "May", value: 3800 },
+    { label: "Jun", value: 5200 },
+    { label: "Jul", value: 6100 },
+  ];
+
+  const barChartData = [
+    { label: "Jan", value: 3200 },
+    { label: "Feb", value: 4500 },
+    { label: "Mar", value: 2800 },
+    { label: "Apr", value: 6200 },
+    { label: "May", value: 5100 },
+    { label: "Jun", value: 7200 },
+    { label: "Jul", value: 6800 },
+  ];
+
+  const Circledata = [
+    { label: "Marketing", value: 4000 },
+    { label: "Sales", value: 3000 },
+    { label: "Development", value: 5000 },
+    { label: "Support", value: 1500 },
+  ];
+
 
   return (
     <div style={{}}>
@@ -323,7 +354,7 @@ export default function Home() {
 
         <Box
           icon={<MoreVerticalIcon size={20} />}
-          title="Grid چهار ستونه"
+          title="نمودار میله ای دوتایی"
           description="انتخاب گزینه برای مشاهده اطلاعات"
           actions={
             <Button variant="warning">
@@ -346,7 +377,7 @@ export default function Home() {
 
         <Box
           icon={<MoreVerticalIcon size={20} />}
-          title="Grid چهار ستونه"
+          title="نمودار خطی دوتایی"
           description="انتخاب گزینه برای مشاهده اطلاعات"
           actions={
             <Button variant="warning">
@@ -361,13 +392,82 @@ export default function Home() {
         >
           <DoubleLineChart
             data={data}
-            assetLabel="دارایی"
-            liabilityLabel="بدهی"
+            assetLabel="کوفت"
+            liabilityLabel="زهرمار"
             height={300}
           />
         </Box>
 
+        <Box
+          icon={<MoreVerticalIcon size={20} />}
+          title="نمودار خطی تکی"
+          description="انتخاب گزینه برای مشاهده اطلاعات"
+          actions={
+            <Button variant="warning">
+              تنظیمات
+            </Button>
+          }
+          footer={
+            <div className="text-sm text-muted-foreground">
+              آخرین بروزرسانی: امروز
+            </div>
+          }
+        >
+          <SingleLineChart
+            data={lineChartData}
+            dataLabel="Revenue"
+            height={340}
+          />
+        </Box>
+
+        <Box
+          icon={<MoreVerticalIcon size={20} />}
+          title="نمودار میله ای تکی"
+          description="انتخاب گزینه برای مشاهده اطلاعات"
+          actions={
+            <Button variant="warning">
+              تنظیمات
+            </Button>
+          }
+          footer={
+            <div className="text-sm text-muted-foreground">
+              آخرین بروزرسانی: امروز
+            </div>
+          }
+        >
+          <SingleBarChart
+            data={barChartData}
+            dataLabel="Sales"
+            height={340}
+          />
+        </Box>
+
+        <Box
+          icon={<MoreVerticalIcon size={20} />}
+          title="نمودار میله ای تکی"
+          description="انتخاب گزینه برای مشاهده اطلاعات"
+          actions={
+            <Button variant="warning">
+              تنظیمات
+            </Button>
+          }
+          footer={
+            <div className="text-sm text-muted-foreground">
+              آخرین بروزرسانی: امروز
+            </div>
+          }
+        >
+<CircleChart
+  unit="$"
+  data={Circledata}
+  height={360}
+  dir="ltr"
+/>
+        </Box>
+
       </div>
+
+
 
       <Modal
         open={open}
