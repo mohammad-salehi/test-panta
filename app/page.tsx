@@ -1,13 +1,18 @@
 'use client'
 
-import { Button, SearchableSelect, Modal, DatePicker, Box, ButtonSelect, HashText } from "panta_design_system";
+import { Button, SearchableSelect, Modal, DatePicker, Box, ButtonSelect, HashText, TreeChart } from "panta_design_system";
 import { useMemo, useState } from 'react';
 import { DoubleBarChart } from "panta_design_system";
 import { DoubleLineChart } from "panta_design_system";
 import { SingleBarChart } from "panta_design_system";
 import { SingleLineChart } from "panta_design_system";
 import { CircleChart } from "panta_design_system";
-
+import {
+  Tabs,
+  TabsList,
+  TabsTrigger,
+  TabsContent,
+} from "panta_design_system"
 type Exchange = { id: number; name: string };
 const EXCHANGES: Exchange[] = [
   { id: 1, name: "آگاه" },
@@ -151,6 +156,28 @@ export default function Home() {
     { label: "Support", value: 1500 },
   ];
 
+  const treemapData = [
+    { name: "Bitcoin", symbol: "BTC", value: 982_450_000 },
+    { name: "Ethereum", symbol: "ETH", value: 741_320_000 },
+    { name: "Tether", symbol: "USDT", value: 524_180_000 },
+    { name: "BNB", symbol: "BNB", value: 301_900_000 },
+    { name: "Solana", symbol: "SOL", value: 286_700_000 },
+    { name: "XRP", symbol: "XRP", value: 238_400_000 },
+    { name: "USDC", symbol: "USDC", value: 211_050_000 },
+    { name: "Dogecoin", symbol: "DOGE", value: 176_890_000 },
+    { name: "Cardano", symbol: "ADA", value: 154_300_000 },
+    { name: "TRON", symbol: "TRX", value: 149_700_000 },
+    { name: "Toncoin", symbol: "TON", value: 138_220_000 },
+    { name: "Avalanche", symbol: "AVAX", value: 127_940_000 },
+    { name: "Shiba Inu", symbol: "SHIB", value: 118_560_000 },
+    { name: "Polkadot", symbol: "DOT", value: 109_330_000 },
+    { name: "Chainlink", symbol: "LINK", value: 101_450_000 },
+    { name: "Litecoin", symbol: "LTC", value: 96_210_000 },
+    { name: "Bitcoin Cash", symbol: "BCH", value: 88_940_000 },
+    { name: "NEAR Protocol", symbol: "NEAR", value: 84_170_000 },
+    { name: "Uniswap", symbol: "UNI", value: 79_860_000 },
+    { name: "Polygon", symbol: "MATIC", value: 74_520_000 },
+  ];
 
   return (
     <div style={{}}>
@@ -457,17 +484,68 @@ export default function Home() {
             </div>
           }
         >
-<CircleChart
-  unit="$"
-  data={Circledata}
-  height={360}
-  dir="ltr"
-/>
+          <CircleChart
+            unit="$"
+            data={Circledata}
+            height={360}
+            dir="ltr"
+          />
+        </Box>
+
+        <Box
+          icon={<MoreVerticalIcon size={20} />}
+          title="نمودار درختی"
+          description="انتخاب گزینه برای مشاهده اطلاعات"
+          actions={
+            <Button variant="warning">
+              تنظیمات
+            </Button>
+          }
+          footer={
+            <div className="text-sm text-muted-foreground">
+              آخرین بروزرسانی: امروز
+            </div>
+          }
+        >
+          <TreeChart
+            data={treemapData}
+            height={340}
+            valueUnit="USDT"
+            valueLabel="حجم"
+            shareLabel="سهم"
+          />
+        </Box>
+
+
+        <Box
+          icon={<MoreVerticalIcon size={20} />}
+          title="تب"
+          description="انتخاب گزینه برای مشاهده اطلاعات"
+          actions={
+            <Button variant="warning">
+              تنظیمات
+            </Button>
+          }
+          footer={
+            <div className="text-sm text-muted-foreground">
+              آخرین بروزرسانی: امروز
+            </div>
+          }
+        >
+          <Tabs defaultValue="overview">
+            <TabsList>
+              <TabsTrigger value="overview">Overview</TabsTrigger>
+              <TabsTrigger value="orders">Orders</TabsTrigger>
+              <TabsTrigger value="history">History</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="overview">Tab 1</TabsContent>
+            <TabsContent value="orders">Tab 2</TabsContent>
+            <TabsContent value="history">Tab 3</TabsContent>
+          </Tabs>
         </Box>
 
       </div>
-
-
 
       <Modal
         open={open}
