@@ -16,6 +16,8 @@ import {
 } from "panta_design_system"
 import { Column, ExpandableTable } from "panta_design_system";
 import { Loader } from "panta_design_system";
+import { Input } from "panta_design_system";
+import { Pagination } from "panta_design_system";
 
 type Project = {
   id: string;
@@ -445,13 +447,89 @@ export default function Home() {
     { name: "Polygon", symbol: "MATIC", value: 74_520_000 },
   ];
 
+  const MailIcon = () => (
+    <svg
+      className="h-5 w-5"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+    >
+      <rect
+        x="3"
+        y="5"
+        width="18"
+        height="14"
+        rx="2.5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+      />
+      <path
+        d="M4 7l8 6 8-6"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+
+  const totalItems = 243;
   return (
     <div style={{}}>
-      
 
-      {/* حالت اسکلت */}
+      {/* <PageLoader text="BLOCKBIN" mode="spinner"/> */}
 
-      {/* اسکلت با آواتار */}
+      <Box
+        icon={<MoreVerticalIcon size={20} />}
+        title="بگ"
+        description="انتخاب گزینه برای مشاهده اطلاعات"
+      >
+        <Pagination
+          totalItems={totalItems}
+          pageSize={pageSize}
+          currentPage={page}
+          onPageChange={(p) => {setPage(p)}}
+          onPageSizeChange={(size) => {
+            setPageSize(size);
+            setPage(1);
+          }}
+          rtl
+        />      </Box>
+      <Box
+        icon={<MoreVerticalIcon size={20} />}
+        title="بگ"
+        description="انتخاب گزینه برای مشاهده اطلاعات"
+      >
+        <Input
+          label="نام"
+          placeholder="نام خود را وارد کنید"
+          hint="حداقل ۳ کاراکتر"
+        />
+
+        <Input
+          label="ایمیل"
+          type="email"
+          placeholder="example@mail.com"
+          leftIcon={<MailIcon />}
+        />
+
+        <Input
+          label="رمز عبور"
+          type="password"
+          placeholder="••••••••"
+          error="رمز باید حداقل ۸ کاراکتر باشد"
+        />
+
+        <Input
+          label="شماره موبایل"
+          type="tel"
+          placeholder="09xxxxxxxxx"
+          success="شماره تأیید شد"
+        />
+      </Box>
+
       <Box
         icon={<MoreVerticalIcon size={20} />}
         title="بگ"
