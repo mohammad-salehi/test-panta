@@ -5,6 +5,8 @@ import { usePathname } from 'next/navigation';
 import { ThemeProvider, Header, Navbar } from 'panta_design_system';
 import 'panta_design_system/styles.css';
 import './globals.css'
+import { ToastProvider } from "panta_design_system";
+
 // آیکون یکسان برای همه آیتم‌ها
 const NavIcon = ({ className = "w-5 h-5" }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none">
@@ -61,17 +63,23 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           />
 
           {/* محتوای اصلی با فاصله از راست (در دسکتاپ) */}
-          <div 
+          <div
             style={{
-              marginRight:isNavbarOpen? "256px":"0px",
-              padding:isNavbarOpen ? "0px 8px 0px 8px" :'0px'
+              marginRight: isNavbarOpen ? "256px" : "0px",
+              padding: isNavbarOpen ? "0px 8px 0px 8px" : '0px'
             }}
           >
             {/* هدر ساده (فقط عنوان) - بدون پراپس اضافی */}
             <div className="">
               <Header title="سامانه نظارت بر کارگزاری‌های مبادله رمزارز ایران" />
             </div>
-            <main className="p-6">{children}</main>
+            <main className='mx-8 ' style={{
+              marginTop: '20px'
+            }}>
+              <ToastProvider>
+                {children}
+              </ToastProvider>
+            </main>
             <footer className="text-center text-sm text-gray-500 py-4">
               © طراحی و توسعه توسط محمد صالحی
             </footer>

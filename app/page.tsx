@@ -18,6 +18,9 @@ import { Column, ExpandableTable } from "panta_design_system";
 import { Loader } from "panta_design_system";
 import { Input } from "panta_design_system";
 import { Pagination } from "panta_design_system";
+import { useToast } from "panta_design_system";
+import { Tooltip } from "panta_design_system";
+import { Stepper } from "panta_design_system";
 
 type Project = {
   id: string;
@@ -345,6 +348,9 @@ export const MoreVerticalIcon = (props: any) => (
 );
 
 export default function Home() {
+
+  const { toast } = useToast();
+
   const [open, setOpen] = useState(false);
 
   const [exchangeSelected, setExchangeSelected] = useState("");
@@ -476,11 +482,38 @@ export default function Home() {
   const [pageSize, setPageSize] = useState(10);
 
   const totalItems = 243;
+
+  const [step, setStep] = useState(2);
+
   return (
     <div style={{}}>
 
-      {/* <PageLoader text="BLOCKBIN" mode="spinner"/> */}
 
+      <Tooltip content="حذف آیتم">
+        <button className="rounded-xl border border-white/20 bg-white/70 px-4 py-2">
+          حذف
+        </button>
+      </Tooltip>
+      {/* <PageLoader text="BLOCKBIN" mode="spinner"/> */}
+      <button
+        onClick={() =>
+          toast("Saved successfully", {
+            type: "alert",
+            position: "bottom-right",
+          })
+        }
+      >toast</button>
+
+<div className="p-10">
+        <Stepper
+          step={2}
+          steps={[
+            { title: "اطلاعات حساب" },
+            { title: "اطلاعات پرداخت" },
+            { title: "تایید نهایی" },
+          ]}
+        />
+      </div>
       <Box
         icon={<MoreVerticalIcon size={20} />}
         title="بگ"
@@ -490,17 +523,15 @@ export default function Home() {
           totalItems={totalItems}
           pageSize={pageSize}
           currentPage={page}
-          onPageChange={(p) => {setPage(p)}}
-          onPageSizeChange={(size) => {
-            setPageSize(size);
-            setPage(1);
-          }}
+          onPageChange={(p) => { setPage(p) }}
           rtl
-        />      </Box>
+        />
+      </Box>
       <Box
         icon={<MoreVerticalIcon size={20} />}
         title="بگ"
         description="انتخاب گزینه برای مشاهده اطلاعات"
+        className="mt-8"
       >
         <Input
           label="نام"
