@@ -1,11 +1,8 @@
 'use client';
-
-import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import { ThemeProvider, Header, Navbar } from 'panta_design_system';
+import {AppShell } from 'panta_design_system';
 import 'panta_design_system/styles.css';
 import './globals.css'
-import { ToastProvider } from "panta_design_system";
 
 // آیکون یکسان برای همه آیتم‌ها
 const NavIcon = ({ className = "w-5 h-5" }) => (
@@ -22,18 +19,7 @@ const navItems = [
 ];
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const [isNavbarOpen, setIsNavbarOpen] = useState(true);
-  const [isMobileOpen, setIsMobileOpen] = useState(false);
   const pathname = usePathname();
-
-  // تغییر وضعیت نوار ناوبری بر اساس اندازه صفحه
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(min-width: 1024px)');
-    setIsNavbarOpen(mediaQuery.matches);
-    const handler = (e: MediaQueryListEvent) => setIsNavbarOpen(e.matches);
-    mediaQuery.addEventListener('change', handler);
-    return () => mediaQuery.removeEventListener('change', handler);
-  }, []);
 
   // توابع خروج و تغییر رمز (می‌توانید بعداً کامل کنید)
   const handleLogout = () => {
@@ -46,45 +32,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="fa" suppressHydrationWarning dir="rtl">
       <body style={{ margin: 0 }}>
-        <ThemeProvider>
-          {/* نوار ناوبری (در دیزاین سیستم fixed است) */}
-          <Navbar
-            navItems={navItems}
-            currentPath={pathname}
-            isOpen={isNavbarOpen}
-            setIsOpen={setIsNavbarOpen}
-            isMobileOpen={isMobileOpen}
-            setIsMobileOpen={setIsMobileOpen}
-            userFullName="کاربر تست"
-            userRole="ADMIN"
-            onLogout={handleLogout}
-            onChangePassword={handleChangePassword}
-            brand={<img src="/bmi.png" style={{ width: '40px' }} alt="logo" />}
-          />
-
-          {/* محتوای اصلی با فاصله از راست (در دسکتاپ) */}
-          <div
-            style={{
-              marginRight: isNavbarOpen ? "256px" : "0px",
-              padding: isNavbarOpen ? "0px 8px 0px 8px" : '0px'
-            }}
-          >
-            {/* هدر ساده (فقط عنوان) - بدون پراپس اضافی */}
-            <div className="">
-              <Header title="سامانه نظارت بر کارگزاری‌های مبادله رمزارز ایران" />
-            </div>
-            <main className='mx-8 ' style={{
-              marginTop: '20px'
-            }}>
-              <ToastProvider>
-                {children}
-              </ToastProvider>
-            </main>
-            <footer className="text-center text-sm text-gray-500 py-4">
-              © طراحی و توسعه توسط محمد صالحی
-            </footer>
-          </div>
-        </ThemeProvider>
+        <AppShell
+          navItems={navItems}
+          currentPath={pathname}
+          title="P.D.S"
+          headerTitle="سامانه نظارت بر کارگزاری‌های مبادله رمزارز ایران"
+          userFullName="کاربر تست"
+          userRole="ADMIN"
+          onLogout={handleLogout}
+          onChangePassword={handleChangePassword}
+          brand={<img src="/bmi.png" style={{ width: "40px" }} alt="logo" />}
+        >
+          {children}
+        </AppShell>
       </body>
     </html>
   );
